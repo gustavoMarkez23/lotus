@@ -17,10 +17,19 @@ describe('ClassValidatorFields', () => {
         constraints: { isRequired: 'test error' }
       }
     ])
-    const sut = new StubClassValidatorFields()
+    const sut = makeSut()
     expect(sut.validate({})).toBeFalsy()
     expect(validateSyncSpy).toHaveBeenCalled()
     expect(sut.validatedData).toBeNull()
     expect(sut.errors).toStrictEqual({ field: ['test error'] })
+  })
+  test('Should validate without errors', () => {
+    const validateSyncSpy = jest.spyOn(libClassValidator, 'validateSync')
+    validateSyncSpy.mockReturnValue([])
+    const sut = makeSut()
+    expect(sut.validate({ field: 'string' })).toBeTruthy()
+    expect(validateSyncSpy).toHaveBeenCalled()
+    expect(sut.validatedData).toStrictEqual({ field: 'string' })
+    expect(sut.errors).toBeNull()
   })
 })
