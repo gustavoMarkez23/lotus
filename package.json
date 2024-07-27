@@ -14,7 +14,7 @@
     "lint": "npx eslint ./src --fix",
     "test": "jest --passWithNoTests --noStackTrace --runInBand",
     "test:verbose": "jest --passWithNoTests --runInBand",
-    "test:unit": "yarn test -- --watch -c jest-unit-config.js",
+    "test:unit": "npx dotenv-cli -e .env.test -- yarn test -- --watch -c jest-unit-config.js",
     "test:integration": "yarn test -- --watch -c jest-integration-config.js",
     "test:staged": "yarn test --findRelatedTests ./src/**/*.ts",
     "test:ci": "yarn test --coverage",
@@ -29,6 +29,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/platform-fastify": "^10.3.10",
+    "dotenv-cli": "^7.4.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
   },
