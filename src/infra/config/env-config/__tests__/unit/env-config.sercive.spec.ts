@@ -18,4 +18,7 @@ describe('EnvConfigService', () => {
   test('should return the variable PORT', () => {
     expect(sut.getAppPort()).toBe(3000)
   })
+  test('should return the variable PORT', () => {
+    expect(sut.getNodeEnv()).toBe('test')
+  })
 })
