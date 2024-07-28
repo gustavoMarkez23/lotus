@@ -14,7 +14,7 @@ export class MarcaRules {
 
   @IsDate()
   @IsOptional()
-    createAt?: Date
+    createdAt?: Date
 
   @IsDate()
   @IsOptional()

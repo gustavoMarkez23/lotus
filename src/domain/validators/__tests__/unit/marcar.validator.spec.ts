@@ -43,11 +43,20 @@ describe('MarcaValidator', () => {
     })
   })
   describe('createdAt field', () => {
-    test('Should return error if ativo is not boolean', () => {
+    test('Should return error if createdAt is not valid Date', () => {
       const isValid = sut.validate({ ...props, createdAt: 'invalid-date' as any })
       expect(isValid).toBeFalsy()
       expect(sut.errors?.createdAt).toStrictEqual([
         'createdAt must be a Date instance'
+      ])
+    })
+  })
+  describe('updatedAt field', () => {
+    test('Should return error if updatedAt is not valid Date', () => {
+      const isValid = sut.validate({ ...props, updatedAt: 'invalid-date' as any })
+      expect(isValid).toBeFalsy()
+      expect(sut.errors?.updatedAt).toStrictEqual([
+        'updatedAt must be a Date instance'
       ])
     })
   })

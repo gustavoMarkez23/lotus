@@ -5,7 +5,7 @@ export abstract class ClassValidatorFields<PropsValidated> implements ValidatorF
   errors: FieldsErrors | null = null
   validatedData: PropsValidated | null = null
   validate (data: object): boolean {
-    const errors = validateSync(data)
+    const errors = validateSync(data, { whitelist: true, forbidNonWhitelisted: true })
     if (errors.length) {
       this.errors = {}
       for (const error of errors) {
