@@ -60,4 +60,13 @@ describe('MarcaValidator', () => {
       ])
     })
   })
+  describe('deletedAt field', () => {
+    test('Should return error if deletedAt is not valid Date', () => {
+      const isValid = sut.validate({ ...props, deletedAt: 'invalid-date' as any })
+      expect(isValid).toBeFalsy()
+      expect(sut.errors?.deletedAt).toStrictEqual([
+        'deletedAt must be a Date instance'
+      ])
+    })
+  })
 })
