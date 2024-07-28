@@ -33,4 +33,13 @@ describe('MarcaValidator', () => {
       ])
     })
   })
+  describe('ativo field', () => {
+    test('Should return error if ativo is not boolean', () => {
+      const isValid = sut.validate({ ...props, ativo: 10 as any })
+      expect(isValid).toBeFalsy()
+      expect(sut.errors?.ativo).toStrictEqual([
+        'ativo must be a boolean value'
+      ])
+    })
+  })
 })
