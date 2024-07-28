@@ -1,5 +1,5 @@
 import { type MarcaProps } from 'src/domain/entities/marca.entity'
-import { type MarcaValidator, MarcaValidatorFactory } from '../../marcar.validator'
+import { MarcaRules, type MarcaValidator, MarcaValidatorFactory } from '../../marcar.validator'
 import { mockMarcaProps } from '../../../tests/mocks/mock-marca'
 
 describe('MarcaValidator', () => {
@@ -68,5 +68,10 @@ describe('MarcaValidator', () => {
         'deletedAt must be a Date instance'
       ])
     })
+  })
+  test('Valid case for marca ValidatorClass', () => {
+    const isValid = sut.validate(props)
+    expect(isValid).toBeTruthy()
+    expect(sut.validatedData).toStrictEqual(new MarcaRules(props))
   })
 })
