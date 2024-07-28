@@ -1,6 +1,6 @@
-import { type MarcaProps } from 'src/domain/entities/marca.entity'
-import { MarcaRules, type MarcaValidator, MarcaValidatorFactory } from '../../marcar.validator'
-import { mockMarcaProps } from '../../../tests/mocks/mock-marca'
+import { type MarcaProps } from '@/domain/entities/marca.entity'
+import { mockMarcaProps } from '@/domain/entities/tests/mocks/mock-marca'
+import { MarcaRules, type MarcaValidator, MarcaValidatorFactory } from '@/domain/validators/marcar.validator'
 
 describe('MarcaValidator', () => {
   let sut: MarcaValidator

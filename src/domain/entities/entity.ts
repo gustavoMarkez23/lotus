@@ -1,6 +1,6 @@
 export abstract class Entity<Props = any> {
   public readonly _id: number
-  constructor (public readonly props: Props, id: number) {
+  constructor (protected readonly props: Props, id: number) {
     this._id = id
   }
 
