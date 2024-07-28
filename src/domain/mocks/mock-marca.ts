@@ -5,6 +5,6 @@ export const mockMarcaProps = (props: Partial<MarcaProps>): MarcaProps => ({
   descricao: props.descricao ?? faker.person.firstName(),
   createdAt: props.createdAt ?? faker.date.anytime(),
   updatedAt: props.updatedAt ?? faker.date.anytime(),
-  deletedAt: props.deletedAt ?? null,
+  deletedAt: props.deletedAt ?? faker.date.anytime(),
   ativo: props.ativo ?? true
 })
