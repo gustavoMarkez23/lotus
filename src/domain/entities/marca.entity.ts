@@ -10,7 +10,7 @@ export type MarcaProps = {
   ativo?: boolean
 }
 export class MarcaEntity extends Entity<MarcaProps> {
-  constructor (protected readonly props: MarcaProps, id: number) {
+  constructor (protected readonly props: MarcaProps, id?: number) {
     super(props, id)
     MarcaEntity.validate(props)
     this.props.createdAt = this.props.createdAt ?? new Date()
