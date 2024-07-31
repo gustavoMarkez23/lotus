@@ -13,8 +13,8 @@ export class CreateMarca implements UseCase<InputCreateMarca, OutputCreateMarca>
   async execute (input: InputCreateMarca): Promise<OutputCreateMarca> {
     const { descricao } = input
     if (!descricao) throw new BadRequestError('Input data not providade')
-    const marca = new MarcaEntity(input)
-    await this.createEntityRepository.create(marca)
+    const entity = new MarcaEntity(input)
+    const marca = await this.createEntityRepository.create(entity)
     return MarcaOutputMapper(marca)
   }
 }
