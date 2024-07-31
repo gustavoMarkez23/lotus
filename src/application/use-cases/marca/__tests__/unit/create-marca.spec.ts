@@ -4,6 +4,7 @@ import { BadRequestError } from '@/application/errors/bad-request-error'
 import { type CreateEntityRepository } from '@/application/protocols/shared/create-entity-repository'
 import { MarcaEntity, type MarcaProps } from '@/domain/entities/marca.entity'
 import { CreateEntityRepositoryStub } from '@/application/mocks/mock-marca'
+import { throwError } from '@/domain/mocks/mock-shared'
 
 describe('CreateMarca', () => {
   let mockProps: MarcaProps
@@ -25,7 +26,7 @@ describe('CreateMarca', () => {
     expect(createSpy).toHaveBeenCalledWith(new MarcaEntity(mockProps))
   })
   test('Should throw if createEntityRepository throws', async () => {
-    jest.spyOn(createEntityRepositoryStub, 'create').mockImplementationOnce(() => { throw new Error() })
+    jest.spyOn(createEntityRepositoryStub, 'create').mockImplementationOnce(throwError)
     const promise = sut.execute(mockProps)
     await expect(promise).rejects.toThrow()
   })
