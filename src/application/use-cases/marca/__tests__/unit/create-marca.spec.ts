@@ -1,14 +1,10 @@
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { CreateMarca } from '../../create-marca'
+import { CreateMarca } from '@/application/use-cases/marca/create-marca'
 import { BadRequestError } from '@/application/errors/bad-request-error'
 import { type CreateEntityRepository } from '@/application/protocols/shared/create-entity-repository'
 import { MarcaEntity, type MarcaProps } from '@/domain/entities/marca.entity'
+import { CreateEntityRepositoryStub } from '@/application/mocks/mock-marca'
 
-class CreateEntityRepositoryStub implements CreateEntityRepository<MarcaEntity> {
-  async create (entity: MarcaEntity): Promise<MarcaEntity> {
-    return await Promise.resolve(entity)
-  }
-}
 describe('CreateMarca', () => {
   let props: MarcaProps
   let createEntityRepositoryStub: CreateEntityRepository<MarcaEntity>
