@@ -30,4 +30,9 @@ describe('CreateMarca', () => {
     const promise = sut.execute(mockProps)
     await expect(promise).rejects.toThrow()
   })
+  test('Should create a MarcaEntity on success', async () => {
+    const marcaEntity = await sut.execute(mockProps)
+    expect(marcaEntity.id).toBeDefined()
+    expect(marcaEntity.descricao).toEqual(mockProps.descricao)
+  })
 })

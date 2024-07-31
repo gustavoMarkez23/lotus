@@ -9,7 +9,7 @@ export abstract class Entity<Props = any> {
   }
 
   toJSON (): Required<{ id: number } & Props> {
-    const json = Object.assign({ id: this._id }, this.props) as Required<{ id: number } & Props>
+    const json = Object.assign({}, this.props, { id: this._id }) as Required<{ id: number } & Props>
     return json
   }
 }
