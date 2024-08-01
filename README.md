@@ -71,3 +71,12 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+<!-- GERA ARQUIVOS PRISMA -->
+npx prisma generate --schema PATH_PRISMA_FILE  
+<!-- USANDO dtoenv-cli -->
+npx dotenv-cli -e .env.development -- npx prisma generate --schema PATH_PRISMA_FILE
+<!-- GERA MIGRATES DO PRISMA DEV -->
+npx dotenv-cli -e .env.development -- npx prisma migrate dev --schema PATH_PRISMA_FILE --name NOME_PARA_MIGRATION
+<!-- GERA MIGRATES DO PRISMA DEPLOY - PARA PROD -->
+npx dotenv-cli -e .env.development -- npx prisma migrate deploy --schema PATH_PRISMA_FILE --name NOME_PARA_MIGRATION
