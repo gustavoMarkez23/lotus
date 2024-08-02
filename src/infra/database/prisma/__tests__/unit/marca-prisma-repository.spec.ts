@@ -19,6 +19,7 @@ class MarcaPrismaRepository implements CreateMarcaRepository {
 }
 describe('MarcaPrismaRepository', () => {
   const prismaService = prismaHelper
+  let sut: MarcaPrismaRepository
   beforeAll(async () => {
     await Test.createTestingModule({
       imports: [DatabaseModule.forTest(prismaService)]
@@ -27,9 +28,11 @@ describe('MarcaPrismaRepository', () => {
       .useValue(prismaMock)
       .compile()
   })
+  beforeEach(() => {
+    sut = new MarcaPrismaRepository(prismaService as any)
+  })
   describe('create()', () => {
     test('Should throws if prisma throw', async () => {
-      const sut = new MarcaPrismaRepository(prismaService as any)
       prismaMock.marca.create.mockImplementationOnce(throwError)
       const promise = sut.create(new MarcaEntity(mockMarcaProps({})))
       await expect(promise).rejects.toThrow()
