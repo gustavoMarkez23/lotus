@@ -8,6 +8,7 @@ import prismaHelper from '../../helpers/prisma-helper'
 import { Test } from '@nestjs/testing'
 import { DatabaseModule } from '@/infra/database/database.module'
 import { type InputCreateMarca } from '@/application/use-cases/marca/create-marca'
+import { faker } from '@faker-js/faker'
 
 class MarcaPrismaRepository implements CreateMarcaRepository {
   constructor (private readonly prismaService: PrismaService) {}
@@ -36,6 +37,14 @@ describe('MarcaPrismaRepository', () => {
       prismaMock.marca.create.mockImplementationOnce(throwError)
       const promise = sut.create(new MarcaEntity(mockMarcaProps({})))
       await expect(promise).rejects.toThrow()
+    })
+    test('Should return a MarcaEntity on success', async () => {
+      const mockMarca = { ...mockMarcaProps({}), id: faker.number.int() }
+      prismaMock.marca.create.mockResolvedValueOnce(mockMarca as any)
+      const marca = await sut.create(mockMarca)
+      expect(marca).toBeTruthy()
+      expect(marca.descricao).toEqual(mockMarca.descricao)
+      expect(marca.createdAt).toEqual(mockMarca.createdAt)
     })
   })
 })

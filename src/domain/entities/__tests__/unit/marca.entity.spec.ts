@@ -7,7 +7,7 @@ describe('MarcaEntity', () => {
   let sut: MarcaEntity
   beforeEach(() => {
     MarcaEntity.validate = jest.fn()
-    props = mockMarcaProps({})
+    props = mockMarcaProps({ deletedAt: faker.date.anytime(), updatedAt: faker.date.anytime() })
     sut = new MarcaEntity(props, faker.number.int())
   })
   test('Constructor method', () => {

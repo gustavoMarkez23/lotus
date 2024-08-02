@@ -4,9 +4,9 @@ import { Entity } from './entity'
 
 export type MarcaProps = {
   descricao: string
-  createdAt?: Date
-  updatedAt?: Date
-  deletedAt?: Date
+  createdAt?: Date | null
+  updatedAt?: Date | null
+  deletedAt?: Date | null
   ativo?: boolean
 }
 export class MarcaEntity extends Entity<MarcaProps> {
