@@ -2,7 +2,7 @@ import { CreateMarca } from '@/application/use-cases/marca/create-marca'
 import { Body, Controller, Inject, Post } from '@nestjs/common'
 import { CreateMarcaDto } from './dto/create-marca.dto'
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { MarcaPresenter } from '../presenter/marca-presenter'
+import { MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
 
 @Controller('marcas')
 export class MarcaController {

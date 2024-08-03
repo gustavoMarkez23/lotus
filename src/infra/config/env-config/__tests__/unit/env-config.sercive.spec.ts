@@ -1,6 +1,6 @@
 import { Test, type TestingModule } from '@nestjs/testing'
-import { EnvConfigModule } from '../../env-config.module'
-import { EnvConfigService } from '../../env-config.service'
+import { EnvConfigModule } from '@/infra/config/env-config/env-config.module'
+import { EnvConfigService } from '@/infra/config/env-config/env-config.service'
 describe('EnvConfigService', () => {
   let sut: EnvConfigService
   beforeEach(async () => {

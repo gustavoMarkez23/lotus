@@ -1,5 +1,5 @@
 import { type DynamicModule, Module } from '@nestjs/common'
-import { EnvConfigModule } from '../config/env-config/env-config.module'
+import { EnvConfigModule } from '@/infra/config/env-config/env-config.module'
 import { ConfigService } from '@nestjs/config'
 import { PrismaService } from './prisma/prisma.service'
 import { type PrismaClient } from '@prisma/client'
