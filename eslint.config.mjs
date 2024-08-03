@@ -30,5 +30,9 @@ export default [{
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/consistent-type-definitions": "off",
         "@typescript-eslint/no-dynamic-delete": "off",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "n/handle-callback-err": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-unsafe-argument": "off"
     },
 }];

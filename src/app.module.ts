@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common'
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
+import { EnvConfigModule } from '@/infra/config/env-config/env-config.module'
+import { MarcaModule } from './infra/nestjs/marca/marca.module'
+import { DatabaseModule } from '@/infra/database/database.module'
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService]
+  imports: [EnvConfigModule, MarcaModule, DatabaseModule]
 })
 export class AppModule {}

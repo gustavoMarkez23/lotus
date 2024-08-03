@@ -1,12 +1,11 @@
 module.exports = {
   roots: ['<rootDir>/src'],
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts',
-    '!<rootDir>/src/main/**'
+    '<rootDir>/src/**/*.ts'
   ],
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
-  // setupFilesAfterEnv: ['<rootDir>/src/infra/helpers/prisma/prisma-helper-mock.ts'],
+  setupFilesAfterEnv: ['<rootDir>/src/infra/database/prisma/helpers/prisma-helper-mock.ts'],
   coveragePathIgnorePatterns: [
     'src/.+/index.ts'
   ],
