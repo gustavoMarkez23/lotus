@@ -45,5 +45,15 @@ describe('MarcaPrismaRepository', () => {
       const promise = sut.get({ id: Number(entity.id) })
       await expect(promise).rejects.toThrow()
     })
+    test('should finds a entity by id', async () => {
+      const fakeId = faker.number.int()
+      const entity = new MarcaEntity(mockMarcaProps({}), fakeId)
+      prismaMock.marca.findUniqueOrThrow.mockResolvedValue(
+        { ...entity.toJSON(), deletedAt: null }
+      )
+      const output = await sut.get({ id: fakeId })
+      expect(output).toBeTruthy()
+      expect(output.toJSON()).toStrictEqual(entity.toJSON())
+    })
   })
 })
