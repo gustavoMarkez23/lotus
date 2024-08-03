@@ -1,4 +1,5 @@
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
+import { GetMarcaRepositiryStub } from '@/application/mocks/mock-marca'
 import { type GetMarcaRepositiry } from '@/application/protocols/marca/get-marca-repository'
 import { type UseCase } from '@/application/use-cases/shared/use-case'
 import { MarcaEntity } from '@/domain/entities/marca.entity'
@@ -6,11 +7,6 @@ import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { faker } from '@faker-js/faker'
 
-class GetMarcaRepositiryStub implements GetMarcaRepositiry {
-  async get (data: InputGetMarca): Promise<MarcaEntity> {
-    return await Promise.resolve(new MarcaEntity(mockMarcaProps({}), data.id))
-  }
-}
 export type InputGetMarca = {
   id: number
 }
