@@ -1,5 +1,5 @@
 import { IsBoolean, IsDate, IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator'
-import { type MarcaProps } from '../entities/marca.entity'
+import { type MarcaProps } from '@/domain/entities/marca.entity'
 import { ClassValidatorFields } from './class-validator-fields'
 
 export class MarcaRules {

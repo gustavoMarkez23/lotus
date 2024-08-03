@@ -36,6 +36,11 @@ describe('MarcaEntity', () => {
     expect(sut.deletedAt).toEqual(props.deletedAt)
     expect(sut.deletedAt).toBeInstanceOf(Date)
   })
+  test('Getter of deletedAt field', () => {
+    const sut = new MarcaEntity({ ...mockMarcaProps({}), deletedAt: null as any })
+    expect(sut.deletedAt).toBeDefined()
+    expect(sut.deletedAt).toEqual(null)
+  })
   test('Getter of updatedAt field', () => {
     expect(sut.updatedAt).toBeDefined()
     expect(sut.updatedAt).toEqual(props.updatedAt)
@@ -45,5 +50,11 @@ describe('MarcaEntity', () => {
     expect(sut.ativo).toBeDefined()
     expect(sut.ativo).toEqual(props.ativo)
     expect(typeof sut.ativo).toEqual('boolean')
+  })
+  test('Getter of ativo field should return true if not provided', () => {
+    const sut = new MarcaEntity({ ...mockMarcaProps({}), ativo: null as any })
+    expect(sut.ativo).toBeDefined()
+    expect(typeof sut.ativo).toEqual('boolean')
+    expect(sut.ativo).toEqual(true)
   })
 })

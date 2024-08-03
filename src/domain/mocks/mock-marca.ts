@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { type MarcaProps } from 'src/domain/entities/marca.entity'
+import { type MarcaProps } from '@/domain/entities/marca.entity'
 
 export const mockMarcaProps = (props: Partial<MarcaProps>): MarcaProps => ({
   descricao: props.descricao ?? faker.person.firstName(),

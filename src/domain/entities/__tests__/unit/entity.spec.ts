@@ -1,4 +1,4 @@
-import { Entity } from '../../entity'
+import { Entity } from '@/domain/entities/entity'
 import { faker } from '@faker-js/faker'
 
 type StubProps = {

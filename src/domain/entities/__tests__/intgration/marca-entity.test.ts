@@ -1,5 +1,5 @@
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { MarcaEntity } from '../../marca.entity'
+import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { EntityValidationError } from '@/domain/errors/validation-error'
 
 describe('MarcaEntity', () => {

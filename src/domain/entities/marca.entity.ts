@@ -1,5 +1,5 @@
-import { EntityValidationError } from '../errors/validation-error'
-import { MarcaValidatorFactory } from '../validators/marca.validator'
+import { EntityValidationError } from '@/domain/errors/validation-error'
+import { MarcaValidatorFactory } from '@/domain/validators/marca.validator'
 import { Entity } from './entity'
 
 export type MarcaProps = {
@@ -35,7 +35,7 @@ export class MarcaEntity extends Entity<MarcaProps> {
   }
 
   get ativo (): boolean {
-    return this.props.ativo ?? true
+    return this.props.ativo!
   }
 
   static validate (props: MarcaProps): void {
