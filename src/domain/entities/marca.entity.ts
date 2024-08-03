@@ -1,11 +1,11 @@
 import { EntityValidationError } from '../errors/validation-error'
-import { MarcaValidatorFactory } from '../validators/marcar.validator'
+import { MarcaValidatorFactory } from '../validators/marca.validator'
 import { Entity } from './entity'
 
 export type MarcaProps = {
   descricao: string
-  createdAt?: Date | null
-  updatedAt?: Date | null
+  createdAt?: Date
+  updatedAt?: Date
   deletedAt?: Date | null
   ativo?: boolean
 }
@@ -14,6 +14,7 @@ export class MarcaEntity extends Entity<MarcaProps> {
     super(props, id)
     MarcaEntity.validate(props)
     this.props.createdAt = this.props.createdAt ?? new Date()
+    this.props.updatedAt = this.props.updatedAt ?? new Date()
     this.props.ativo = this.props.ativo ?? true
   }
 
