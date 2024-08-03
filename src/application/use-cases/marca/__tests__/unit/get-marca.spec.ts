@@ -1,23 +1,10 @@
-import { type MarcaOutput } from '@/application/dto/marca/marca-output'
 import { GetMarcaRepositiryStub } from '@/application/mocks/mock-marca'
-import { type GetMarcaRepositiry } from '@/application/protocols/marca/get-marca-repository'
-import { type UseCase } from '@/application/use-cases/shared/use-case'
 import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { faker } from '@faker-js/faker'
+import { GetMarca } from '@/application/use-cases/marca/get-marca'
 
-export type InputGetMarca = {
-  id: number
-}
-export type OutputGetMarca = MarcaOutput
-class GetMarca implements UseCase<InputGetMarca, OutputGetMarca> {
-  constructor (private readonly getMarcaRepository: GetMarcaRepositiry) {}
-  async execute (input: InputGetMarca): Promise<MarcaOutput> {
-    const output = await this.getMarcaRepository.get(input)
-    return output
-  }
-}
 describe('GetMarca', () => {
   let getMarcaRepositiryStub: GetMarcaRepositiryStub
   let sut: GetMarca

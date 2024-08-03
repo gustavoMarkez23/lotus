@@ -1,4 +1,4 @@
-import { type InputGetMarca } from '@/application/use-cases/marca/__tests__/unit/get-marca.spec'
+import { type InputGetMarca } from '@/application/use-cases/marca/get-marca'
 import { type MarcaEntity } from '@/domain/entities/marca.entity'
 
 export interface GetMarcaRepositiry {
