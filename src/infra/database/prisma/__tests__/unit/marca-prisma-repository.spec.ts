@@ -38,4 +38,12 @@ describe('MarcaPrismaRepository', () => {
       expect(marca.createdAt).toEqual(mockMarca.createdAt)
     })
   })
+  describe('get()', () => {
+    test('Should throws if prisma throw', async () => {
+      prismaMock.marca.findUnique.mockImplementationOnce(throwError)
+      const entity = new MarcaEntity(mockMarcaProps({}))
+      const promise = sut.get({ id: Number(entity.id) })
+      await expect(promise).rejects.toThrow()
+    })
+  })
 })
