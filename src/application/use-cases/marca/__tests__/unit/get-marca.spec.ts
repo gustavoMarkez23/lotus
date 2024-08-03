@@ -28,6 +28,6 @@ describe('GetMarca', () => {
     const entity = new MarcaEntity(mockMarcaProps({}), id)
     jest.spyOn(getMarcaRepositiryStub, 'get').mockReturnValueOnce(Promise.resolve(entity))
     const output = await sut.execute({ id: Number(entity.id) })
-    expect(output).toMatchObject(entity)
+    expect(output).toMatchObject(entity.toJSON())
   })
 })
