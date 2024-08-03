@@ -18,8 +18,8 @@ export type OutputGetMarca = MarcaOutput
 class GetMarca implements UseCase<InputGetMarca, OutputGetMarca> {
   constructor (private readonly getMarcaRepository: GetMarcaRepositiry) {}
   async execute (input: InputGetMarca): Promise<MarcaOutput> {
-    await this.getMarcaRepository.get(input)
-    return new MarcaEntity(mockMarcaProps({}))
+    const output = await this.getMarcaRepository.get(input)
+    return output
   }
 }
 describe('GetMarca', () => {
@@ -40,5 +40,11 @@ describe('GetMarca', () => {
     jest.spyOn(getMarcaRepositiryStub, 'get').mockImplementationOnce(throwError)
     const promise = sut.execute({ id })
     await expect(promise).rejects.toThrow()
+  })
+  test('Should return a MarcaEntity on success', async () => {
+    const entity = new MarcaEntity(mockMarcaProps({}), id)
+    jest.spyOn(getMarcaRepositiryStub, 'get').mockReturnValueOnce(Promise.resolve(entity))
+    const output = await sut.execute({ id: Number(entity.id) })
+    expect(output).toMatchObject(entity)
   })
 })
