@@ -1,4 +1,5 @@
 import { type INestApplication, ValidationPipe } from '@nestjs/common'
+import { NotFoundErrorFilter } from './infra/nestjs/exception-filters/not-found-error/not-found-error.filter'
 
 export const applyGlobalConfig = (app: INestApplication): void => {
   app.useGlobalPipes(
@@ -8,5 +9,8 @@ export const applyGlobalConfig = (app: INestApplication): void => {
       forbidNonWhitelisted: true,
       transform: true
     })
+  )
+  app.useGlobalFilters(
+    new NotFoundErrorFilter()
   )
 }
