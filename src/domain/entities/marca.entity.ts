@@ -22,12 +22,12 @@ export class MarcaEntity extends Entity<MarcaProps> {
     return this.props.descricao
   }
 
-  get createdAt (): Date | null {
-    return this.props.createdAt ?? null
+  get createdAt (): Date {
+    return this.props.createdAt!
   }
 
-  get updatedAt (): Date | null {
-    return this.props.updatedAt ?? null
+  get updatedAt (): Date {
+    return this.props.updatedAt!
   }
 
   get deletedAt (): Date | null {
