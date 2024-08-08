@@ -7,6 +7,7 @@ export type SearchProps<Filter = string> = {
   sort?: string | null
   sortDir?: SortDirection | null
   filter?: Filter | null
+  filterField?: Filter | null
 }
 export type SearchResultProps<E extends Entity, Filter> = {
   items: E[]
@@ -23,12 +24,14 @@ export class SearchParams<Filter = string> {
   protected _sort!: string | null
   protected _sortDir!: SortDirection | null
   protected _filter!: Filter | null
+  protected _filterField!: Filter | null
   constructor (props: SearchProps<Filter> = {}) {
-    this.page = Number(props.page)
     this.perPage = props.perPage as any
+    this.page = Number(props.page)
     this.sort = props.sort ?? null
     this.sortDir = props.sortDir ?? null
     this.filter = props.filter ?? null
+    this.filterField = props.filterField ?? null
   }
 
   get page (): number {
@@ -79,6 +82,14 @@ export class SearchParams<Filter = string> {
   private set filter (value: Filter | null) {
     this._filter = value === null || value === undefined || value === '' ? null : String(value) as any
   }
+
+  get filterField (): Filter | null {
+    return this._filterField
+  }
+
+  private set filterField (value: Filter | null) {
+    this._filterField = value === null || value === undefined || value === '' ? null : String(value) as any
+  }
 }
 export class SearchResult<E extends Entity, Filter = string> {
   readonly items: E[]
@@ -115,5 +126,6 @@ export class SearchResult<E extends Entity, Filter = string> {
 }
 export interface SearchableRepository<E extends Entity, Filter = string, SearchInput = SearchParams<Filter>, SearchOutput = SearchResult<E, Filter>> {
   sortableFields: string[]
+  filtableFields: string[]
   search(props: SearchInput): Promise<SearchOutput>
 }
