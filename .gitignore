@@ -59,3 +59,4 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 *.http
+src/infra/database/prisma/dev.db

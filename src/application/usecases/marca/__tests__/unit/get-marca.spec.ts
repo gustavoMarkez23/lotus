@@ -2,7 +2,7 @@ import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { faker } from '@faker-js/faker'
-import { GetMarca } from '@/application/use-cases/marca/get-marca'
+import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { GetMarcaRepositoryStub } from '@/application/mocks/mock-marca'
 
 describe('GetMarca', () => {

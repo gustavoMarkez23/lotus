@@ -1,9 +1,11 @@
-import { CreateMarca } from '@/application/use-cases/marca/create-marca'
-import { Body, Controller, Get, Inject, Param, Post } from '@nestjs/common'
+import { CreateMarca } from '@/application/usecases/marca/create-marca'
+import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common'
 import { CreateMarcaDto } from './dto/create-marca.dto'
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
-import { GetMarca } from '@/application/use-cases/marca/get-marca'
+import { MarcaCollectionPresenter, MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
+import { GetMarca } from '@/application/usecases/marca/get-marca'
+import { ListMarca, type OutputListMarca } from '@/application/usecases/marca/list-marca'
+import { ListMarcaDto } from './dto/list-marca.dto'
 
 @Controller('marcas')
 export class MarcaController {
@@ -13,8 +15,15 @@ export class MarcaController {
   @Inject(GetMarca)
   private readonly getMarca!: GetMarca
 
+  @Inject(ListMarca)
+  private readonly listMarca!: ListMarca
+
   static marcaToResponse (output: MarcaOutput): MarcaPresenter {
     return new MarcaPresenter(output)
+  }
+
+  static listMarcaToResponse (output: OutputListMarca): MarcaCollectionPresenter {
+    return new MarcaCollectionPresenter(output)
   }
 
   @Post()
@@ -29,10 +38,11 @@ export class MarcaController {
     return MarcaController.marcaToResponse(output)
   }
 
-  // @Get()
-  // findAll () {
-  //   return this.marcaService.findAll()
-  // }
+  @Get()
+  async search (@Query() searchParams: ListMarcaDto): Promise<MarcaCollectionPresenter> {
+    const output = await this.listMarca.execute(searchParams)
+    return MarcaController.listMarcaToResponse(output)
+  }
 
   // @Patch(':id')
   // update (@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcaDto) {

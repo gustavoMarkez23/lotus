@@ -1,7 +1,7 @@
 import { MarcaOutputMapper, type MarcaOutput } from '@/application/dto/marca/marca-output'
 import { BadRequestError } from '@/application/errors/bad-request-error'
-import { type UseCase } from '@/application/use-cases/shared/use-case'
 import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
+import { type UseCase } from '@/domain/protocols/shared/usecase'
 
 export type InputCreateMarca = {
   descricao: string

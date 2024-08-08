@@ -1,6 +1,6 @@
 import { MarcaOutputMapper, type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { type UseCase } from '@/application/use-cases/shared/use-case'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
+import { type UseCase } from '@/domain/protocols/shared/usecase'
 
 export type InputGetMarca = {
   id: number

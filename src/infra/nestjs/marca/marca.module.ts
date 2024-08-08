@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common'
 import { MarcaController } from '@/infra/nestjs/marca/marca.controller'
-import { CreateMarca } from '@/application/use-cases/marca/create-marca'
+import { CreateMarca } from '@/application/usecases/marca/create-marca'
 import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
 import { MarcaPrismaRepository } from '@/infra/database/prisma/marca/marca-prisma-repository'
 import { PrismaService } from '@/infra/database/prisma/prisma.service'
-import { GetMarca } from '@/application/use-cases/marca/get-marca'
+import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
+import { ListMarca } from '@/application/usecases/marca/list-marca'
+import { type SearchMarcaRepository } from '@/application/protocols/marca/search-marca-repository'
 
 @Module({
   controllers: [MarcaController],
@@ -25,6 +27,11 @@ import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca
       inject: ['PrismaService']
     },
     {
+      provide: 'SearchMarcaRepository',
+      useFactory: (prismaService: PrismaService) => new MarcaPrismaRepository(prismaService),
+      inject: ['PrismaService']
+    },
+    {
       provide: CreateMarca,
       useFactory: (createMarcaRepository: CreateMarcaRepository) => new CreateMarca(createMarcaRepository),
       inject: ['CreateMarcaRepository']
@@ -33,6 +40,11 @@ import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca
       provide: GetMarca,
       useFactory: (getMarcaRepository: GetMarcaRepository) => new GetMarca(getMarcaRepository),
       inject: ['GetMarcaRepository']
+    },
+    {
+      provide: ListMarca,
+      useFactory: (searchMarcaRepository: SearchMarcaRepository) => new ListMarca(searchMarcaRepository),
+      inject: ['SearchMarcaRepository']
     }
   ]
 })
