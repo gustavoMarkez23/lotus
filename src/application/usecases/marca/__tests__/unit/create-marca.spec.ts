@@ -1,5 +1,5 @@
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { CreateMarca, type InputCreateMarca } from '@/application/use-cases/marca/create-marca'
+import { CreateMarca, type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { BadRequestError } from '@/application/errors/bad-request-error'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
