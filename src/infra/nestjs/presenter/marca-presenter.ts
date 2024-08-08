@@ -1,4 +1,6 @@
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
+import { CollectionPresenter } from './shared-presenter'
+import { type OutputListMarca } from '@/application/usecases/marca/list-marca'
 
 export class MarcaPresenter {
   id: number
@@ -14,5 +16,14 @@ export class MarcaPresenter {
     this.updatedAt = output.updatedAt
     this.deletedAt = output.deletedAt
     this.ativo = output.ativo
+  }
+}
+
+export class MarcaCollectionPresenter extends CollectionPresenter {
+  data: MarcaPresenter[]
+  constructor (output: OutputListMarca) {
+    const { items, ...paginationProps } = output
+    super(paginationProps)
+    this.data = items.map(item => new MarcaPresenter(item))
   }
 }
