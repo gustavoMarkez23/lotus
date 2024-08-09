@@ -9,7 +9,7 @@ export type OutputGetMarca = MarcaOutput
 export class GetMarca implements UseCase<InputGetMarca, OutputGetMarca> {
   constructor (private readonly getMarcaRepository: GetMarcaRepository) {}
   async execute (input: InputGetMarca): Promise<MarcaOutput> {
-    const output = await this.getMarcaRepository.get(input)
+    const output = await this.getMarcaRepository.findById(input.id)
     return MarcaOutputMapper(output)
   }
 }

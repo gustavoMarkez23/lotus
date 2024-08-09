@@ -42,7 +42,7 @@ describe('MarcaPrismaRepository', () => {
     test('Should throws if prisma throw', async () => {
       prismaMock.marca.findUnique.mockImplementationOnce(throwError)
       const entity = new MarcaEntity(mockMarcaProps({}))
-      const promise = sut.get({ id: Number(entity.id) })
+      const promise = sut.findById(Number(entity.id))
       await expect(promise).rejects.toThrow()
     })
     test('should finds a entity by id', async () => {
@@ -51,7 +51,7 @@ describe('MarcaPrismaRepository', () => {
       prismaMock.marca.findUniqueOrThrow.mockResolvedValue(
         { ...entity.toJSON(), deletedAt: null }
       )
-      const output = await sut.get({ id: fakeId })
+      const output = await sut.findById(fakeId)
       expect(output).toBeTruthy()
       expect(output.toJSON()).toStrictEqual(entity.toJSON())
     })

@@ -4,7 +4,6 @@ import { type MarcaEntity } from '@/domain/entities/marca.entity'
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { marcaModelMapper } from './marca-model-mapper'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
-import { type InputGetMarca } from '@/application/usecases/marca/get-marca'
 import { NotFoundError } from '@/domain/errors/not-found-error'
 import { type SearchMarcaParams, type SearchMarcaRepository, SearchMarcaResult } from '@/application/protocols/marca/search-marca-repository'
 import { type SearchResult } from '@/application/protocols/shared/searchable-repository'
@@ -18,12 +17,12 @@ export class MarcaPrismaRepository implements CreateMarcaRepository, GetMarcaRep
     return marcaModelMapper(marcaModel)
   }
 
-  async get (data: InputGetMarca): Promise<MarcaEntity> {
+  async findById (id: number): Promise<MarcaEntity> {
     try {
-      const marcaModel = await this.prismaService.marca.findUniqueOrThrow({ where: data })
+      const marcaModel = await this.prismaService.marca.findUniqueOrThrow({ where: { id } })
       return marcaModelMapper(marcaModel)
     } catch (error) {
-      throw new NotFoundError(`MarcaModel not found using ID ${data.id}`)
+      throw new NotFoundError(`MarcaModel not found using ID ${id}`)
     }
   }
 

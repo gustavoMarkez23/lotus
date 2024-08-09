@@ -3,8 +3,8 @@ import { CreateMarca, type InputCreateMarca } from '@/application/usecases/marca
 import { BadRequestError } from '@/application/errors/bad-request-error'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
-import { CreateMarcaRepositoryStub } from '@/application/mocks/mock-marca'
 import { faker } from '@faker-js/faker'
+import { mockCreateMarcaRepository } from '@/application/mocks/mock-marca'
 
 describe('CreateMarca', () => {
   let mockProps: InputCreateMarca
@@ -12,7 +12,7 @@ describe('CreateMarca', () => {
   let sut: CreateMarca
   beforeEach(() => {
     mockProps = { descricao: faker.person.firstName() }
-    createMarcaRepositoryStub = new CreateMarcaRepositoryStub()
+    createMarcaRepositoryStub = mockCreateMarcaRepository()
     sut = new CreateMarca(createMarcaRepositoryStub)
   })
   test('Should throws error when descricao not provided', async () => {
