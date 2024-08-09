@@ -18,6 +18,15 @@ export class MarcaEntity extends Entity<MarcaProps> {
     this.props.ativo = this.props.ativo ?? true
   }
 
+  update (value: string): void {
+    MarcaEntity.validate({ ...this.props, descricao: value })
+    this.descricao = value
+  }
+
+  private set descricao (value: string) {
+    this.props.descricao = value
+  }
+
   get descricao (): string {
     return this.props.descricao
   }

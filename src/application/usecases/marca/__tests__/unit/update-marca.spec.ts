@@ -8,6 +8,7 @@ import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca
 import { mockGetMarcaRepository } from '@/application/mocks/mock-marca'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import { throwError } from '@/domain/mocks/mock-shared'
+import { BadRequestError } from '@/application/errors/bad-request-error'
 
 class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
   async update (data: MarcaEntity): Promise<void> {}
@@ -15,7 +16,9 @@ class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
 class UpdateMarcaUsecase implements UseCase<InputUpdateMarca, OutputUpdateMarca> {
   constructor (private readonly getMarcaRepository: GetMarcaRepository, private readonly updateMarcaRepository: UpdateMarcaRepository) {}
   async execute (input: InputUpdateMarca): Promise<MarcaOutput> {
-    await this.getMarcaRepository.findById(input.id)
+    if (!input.descricao) throw new BadRequestError('Descricao not provided')
+    const marca = await this.getMarcaRepository.findById(input.id)
+    marca.update(input.descricao)
     return new MarcaEntity(mockMarcaProps({}), input.id)
   }
 }
@@ -33,6 +36,11 @@ describe('UpdateMarca', () => {
     getMarcaRepositoryStub = mockGetMarcaRepository()
     updateMarcaRepositoryStub = new UpdateMarcaRepositoryStub()
     sut = new UpdateMarcaUsecase(getMarcaRepositoryStub, updateMarcaRepositoryStub)
+  })
+  test('Should throws error when descricao not provided', async () => {
+    await expect(async () => await sut.execute({ id: faker.number.int(), descricao: '' })).rejects.toThrow(
+      new BadRequestError('Descricao not provided')
+    )
   })
   test('Should call GetMarcaRepository with correct values', async () => {
     const spyFindById = jest.spyOn(getMarcaRepositoryStub, 'findById')
