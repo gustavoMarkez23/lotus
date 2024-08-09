@@ -1,6 +1,6 @@
 import { type UseCase } from '@/domain/protocols/shared/usecase'
 import { type InputUpdateMarca, type OutputUpdateMarca } from '../../update-marca'
-import { type MarcaOutput } from '@/application/dto/marca/marca-output'
+import { MarcaOutputMapper, type MarcaOutput } from '@/application/dto/marca/marca-output'
 import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
 import { faker } from '@faker-js/faker'
 import { MarcaEntity } from '@/domain/entities/marca.entity'
@@ -20,7 +20,7 @@ class UpdateMarcaUsecase implements UseCase<InputUpdateMarca, OutputUpdateMarca>
     const marcaEntity = await this.getMarcaRepository.findById(input.id)
     marcaEntity.update(input.descricao)
     await this.updateMarcaRepository.update(marcaEntity)
-    return new MarcaEntity(mockMarcaProps({}), input.id)
+    return MarcaOutputMapper(marcaEntity)
   }
 }
 
@@ -67,5 +67,13 @@ describe('UpdateMarca', () => {
     jest.spyOn(updateMarcaRepositoryStub, 'update').mockImplementationOnce(throwError)
     const promise = sut.execute(mockInput)
     await expect(promise).rejects.toThrow()
+  })
+  test('Should update a MarcaEntity on success', async () => {
+    const mockMarcaEntity = new MarcaEntity(mockMarcaProps({}), mockInput.id)
+    mockMarcaEntity.update(mockInput.descricao)
+    jest.spyOn(getMarcaRepositoryStub, 'findById').mockReturnValueOnce(Promise.resolve(mockMarcaEntity))
+    const marcaEntity = await sut.execute(mockInput)
+    expect(marcaEntity.id).toBeDefined()
+    expect(marcaEntity.descricao).toEqual(mockInput.descricao)
   })
 })
