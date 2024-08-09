@@ -1,28 +1,12 @@
-import { type UseCase } from '@/domain/protocols/shared/usecase'
-import { type InputUpdateMarca, type OutputUpdateMarca } from '../../update-marca'
-import { MarcaOutputMapper, type MarcaOutput } from '@/application/dto/marca/marca-output'
+import { UpdateMarcaUsecase, type InputUpdateMarca } from '@/application/usecases/marca/update-marca'
 import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
 import { faker } from '@faker-js/faker'
 import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
-import { mockGetMarcaRepository } from '@/application/mocks/mock-marca'
+import { mockGetMarcaRepository, mockUpdateMarcaRepository } from '@/application/mocks/mock-marca'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { BadRequestError } from '@/application/errors/bad-request-error'
-
-class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
-  async update (data: MarcaEntity): Promise<void> {}
-}
-class UpdateMarcaUsecase implements UseCase<InputUpdateMarca, OutputUpdateMarca> {
-  constructor (private readonly getMarcaRepository: GetMarcaRepository, private readonly updateMarcaRepository: UpdateMarcaRepository) {}
-  async execute (input: InputUpdateMarca): Promise<MarcaOutput> {
-    if (!input.descricao) throw new BadRequestError('Descricao not provided')
-    const marcaEntity = await this.getMarcaRepository.findById(input.id)
-    marcaEntity.update(input.descricao)
-    await this.updateMarcaRepository.update(marcaEntity)
-    return MarcaOutputMapper(marcaEntity)
-  }
-}
 
 describe('UpdateMarca', () => {
   let mockInput: InputUpdateMarca
@@ -35,7 +19,7 @@ describe('UpdateMarca', () => {
       descricao: faker.commerce.product()
     }
     getMarcaRepositoryStub = mockGetMarcaRepository()
-    updateMarcaRepositoryStub = new UpdateMarcaRepositoryStub()
+    updateMarcaRepositoryStub = mockUpdateMarcaRepository()
     sut = new UpdateMarcaUsecase(getMarcaRepositoryStub, updateMarcaRepositoryStub)
   })
   test('Should throws error when descricao not provided', async () => {

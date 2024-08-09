@@ -4,6 +4,7 @@ import { type CreateMarcaRepository } from '@/application/protocols/marca/create
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
+import { type UpdateMarcaRepository } from '../protocols/marca/update-marca-repository'
 
 export const mockCreateMarcaRepository = (): CreateMarcaRepository => {
   class CreateMarcaRepositoryStub implements CreateMarcaRepository {
@@ -20,4 +21,11 @@ export const mockGetMarcaRepository = (): GetMarcaRepository => {
     }
   }
   return new GetMarcaRepositoryStub()
+}
+
+export const mockUpdateMarcaRepository = (): UpdateMarcaRepository => {
+  class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
+    async update (data: MarcaEntity): Promise<void> {}
+  }
+  return new UpdateMarcaRepositoryStub()
 }
