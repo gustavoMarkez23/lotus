@@ -7,11 +7,12 @@ import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
 import { mockGetMarcaRepository } from '@/application/mocks/mock-marca'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
+import { throwError } from '@/domain/mocks/mock-shared'
 
 class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
   async update (data: MarcaEntity): Promise<void> {}
 }
-class UpdateMarcaUsecaseStub implements UseCase<InputUpdateMarca, OutputUpdateMarca> {
+class UpdateMarcaUsecase implements UseCase<InputUpdateMarca, OutputUpdateMarca> {
   constructor (private readonly getMarcaRepository: GetMarcaRepository, private readonly updateMarcaRepository: UpdateMarcaRepository) {}
   async execute (input: InputUpdateMarca): Promise<MarcaOutput> {
     await this.getMarcaRepository.findById(input.id)
@@ -20,16 +21,27 @@ class UpdateMarcaUsecaseStub implements UseCase<InputUpdateMarca, OutputUpdateMa
 }
 
 describe('UpdateMarca', () => {
-  test('Should call GetMarcaRepository with correct values', async () => {
-    const mockInput: InputUpdateMarca = {
+  let mockInput: InputUpdateMarca
+  let getMarcaRepositoryStub: GetMarcaRepository
+  let updateMarcaRepositoryStub: UpdateMarcaRepository
+  let sut: UpdateMarcaUsecase
+  beforeEach(() => {
+    mockInput = {
       id: faker.number.int(),
       descricao: faker.commerce.product()
     }
-    const getMarcaRepositoryStub = mockGetMarcaRepository()
-    const updateMarcaRepositoryStub = new UpdateMarcaRepositoryStub()
-    const sut = new UpdateMarcaUsecaseStub(getMarcaRepositoryStub, updateMarcaRepositoryStub)
+    getMarcaRepositoryStub = mockGetMarcaRepository()
+    updateMarcaRepositoryStub = new UpdateMarcaRepositoryStub()
+    sut = new UpdateMarcaUsecase(getMarcaRepositoryStub, updateMarcaRepositoryStub)
+  })
+  test('Should call GetMarcaRepository with correct values', async () => {
     const spyFindById = jest.spyOn(getMarcaRepositoryStub, 'findById')
     await sut.execute(mockInput)
     expect(spyFindById).toHaveBeenCalledWith(mockInput.id)
+  })
+  test('Should throw if GetMarcaRepository throws', async () => {
+    jest.spyOn(getMarcaRepositoryStub, 'findById').mockImplementationOnce(throwError)
+    const promise = sut.execute(mockInput)
+    await expect(promise).rejects.toThrow()
   })
 })
