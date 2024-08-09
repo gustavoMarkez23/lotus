@@ -17,8 +17,9 @@ class UpdateMarcaUsecase implements UseCase<InputUpdateMarca, OutputUpdateMarca>
   constructor (private readonly getMarcaRepository: GetMarcaRepository, private readonly updateMarcaRepository: UpdateMarcaRepository) {}
   async execute (input: InputUpdateMarca): Promise<MarcaOutput> {
     if (!input.descricao) throw new BadRequestError('Descricao not provided')
-    const marca = await this.getMarcaRepository.findById(input.id)
-    marca.update(input.descricao)
+    const marcaEntity = await this.getMarcaRepository.findById(input.id)
+    marcaEntity.update(input.descricao)
+    await this.updateMarcaRepository.update(marcaEntity)
     return new MarcaEntity(mockMarcaProps({}), input.id)
   }
 }
@@ -51,5 +52,15 @@ describe('UpdateMarca', () => {
     jest.spyOn(getMarcaRepositoryStub, 'findById').mockImplementationOnce(throwError)
     const promise = sut.execute(mockInput)
     await expect(promise).rejects.toThrow()
+  })
+  test('Should call UpdateMarcaRepository with correct values', async () => {
+    const mockMarcaEntity = new MarcaEntity(mockMarcaProps({}), mockInput.id)
+    jest.spyOn(getMarcaRepositoryStub, 'findById').mockReturnValueOnce(Promise.resolve(mockMarcaEntity))
+    const spyUpdate = jest.spyOn(updateMarcaRepositoryStub, 'update')
+    await sut.execute(mockInput)
+    expect(spyUpdate).toHaveBeenCalledWith(expect.objectContaining({
+      id: mockInput.id,
+      descricao: mockInput.descricao
+    }))
   })
 })
