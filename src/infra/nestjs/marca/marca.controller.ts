@@ -1,11 +1,13 @@
 import { CreateMarca } from '@/application/usecases/marca/create-marca'
-import { Body, Controller, Get, Inject, Param, Post, Query } from '@nestjs/common'
+import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
 import { CreateMarcaDto } from './dto/create-marca.dto'
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
 import { MarcaCollectionPresenter, MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
 import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { ListMarca, type OutputListMarca } from '@/application/usecases/marca/list-marca'
 import { ListMarcaDto } from './dto/list-marca.dto'
+import { UpdateMarcaDto } from './dto/update-marca.dto'
+import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
 
 @Controller('marcas')
 export class MarcaController {
@@ -17,6 +19,9 @@ export class MarcaController {
 
   @Inject(ListMarca)
   private readonly listMarca!: ListMarca
+
+  @Inject(UpdateMarcaUsecase)
+  private readonly updateMarca!: UpdateMarcaUsecase
 
   static marcaToResponse (output: MarcaOutput): MarcaPresenter {
     return new MarcaPresenter(output)
@@ -44,10 +49,14 @@ export class MarcaController {
     return MarcaController.listMarcaToResponse(output)
   }
 
-  // @Patch(':id')
-  // update (@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcaDto) {
-  //   return this.marcaService.update(+id, updateMarcaDto)
-  // }
+  @Put(':id')
+  async update (@Param('id') id: string, @Body() updateMarcaDto: UpdateMarcaDto): Promise<MarcaPresenter> {
+    const output = await this.updateMarca.execute({
+      id: +id,
+      ...updateMarcaDto
+    })
+    return MarcaController.marcaToResponse(output)
+  }
 
   // @Delete(':id')
   // remove (@Param('id') id: string) {

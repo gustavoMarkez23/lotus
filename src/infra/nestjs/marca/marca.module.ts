@@ -8,6 +8,8 @@ import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
 import { ListMarca } from '@/application/usecases/marca/list-marca'
 import { type SearchMarcaRepository } from '@/application/protocols/marca/search-marca-repository'
+import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
+import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
 
 @Module({
   controllers: [MarcaController],
@@ -32,6 +34,11 @@ import { type SearchMarcaRepository } from '@/application/protocols/marca/search
       inject: ['PrismaService']
     },
     {
+      provide: 'UpdateMarcaRepository',
+      useFactory: (PrismaService: PrismaService) => new MarcaPrismaRepository(PrismaService),
+      inject: ['PrismaService']
+    },
+    {
       provide: CreateMarca,
       useFactory: (createMarcaRepository: CreateMarcaRepository) => new CreateMarca(createMarcaRepository),
       inject: ['CreateMarcaRepository']
@@ -45,6 +52,11 @@ import { type SearchMarcaRepository } from '@/application/protocols/marca/search
       provide: ListMarca,
       useFactory: (searchMarcaRepository: SearchMarcaRepository) => new ListMarca(searchMarcaRepository),
       inject: ['SearchMarcaRepository']
+    },
+    {
+      provide: UpdateMarcaUsecase,
+      useFactory: (getMarcaRepository: GetMarcaRepository, updateMarcaRepository: UpdateMarcaRepository) => new UpdateMarcaUsecase(getMarcaRepository, updateMarcaRepository),
+      inject: ['GetMarcaRepository', 'UpdateMarcaRepository']
     }
   ]
 })
