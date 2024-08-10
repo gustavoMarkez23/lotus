@@ -30,7 +30,7 @@ export class MarcaEntity extends Entity<MarcaProps> {
   }
 
   inactive (): void {
-    MarcaEntity.validate({ ...this.props, ativo: true, deletedAt: null })
+    MarcaEntity.validate({ ...this.props, ativo: false, deletedAt: new Date() })
     this.ativo = false
     this.deletedAt = new Date()
   }

@@ -11,11 +11,11 @@ import { faker } from '@faker-js/faker'
 
 type InputActivateMarca = InputGetMarca
 type OutputActivateMarca = MarcaOutput
-class ActivateMarcaUsecase implements UseCase<InputActivateMarca, OutputActivateMarca> {
+class InactiveMarcaUsecase implements UseCase<InputActivateMarca, OutputActivateMarca> {
   constructor (private readonly getMarcaRepository: GetMarcaRepository, private readonly updateMarcaRepository: UpdateMarcaRepository) {}
   async execute (input: InputGetMarca): Promise<MarcaOutput> {
     const entity = await this.getMarcaRepository.findById(input.id)
-    entity.activate()
+    entity.inactive()
     await this.updateMarcaRepository.update(entity)
     return MarcaOutputMapper(entity)
   }
@@ -25,13 +25,13 @@ describe('ActivateMarca', () => {
   let mockInput: InputActivateMarca
   let getMarcaRepositoryStub: GetMarcaRepository
   let updateMarcaRepositoryStub: UpdateMarcaRepository
-  let sut: ActivateMarcaUsecase
+  let sut: InactiveMarcaUsecase
 
   beforeEach(() => {
     mockInput = { id: faker.number.int() }
     getMarcaRepositoryStub = mockGetMarcaRepository()
     updateMarcaRepositoryStub = mockUpdateMarcaRepository()
-    sut = new ActivateMarcaUsecase(getMarcaRepositoryStub, updateMarcaRepositoryStub)
+    sut = new InactiveMarcaUsecase(getMarcaRepositoryStub, updateMarcaRepositoryStub)
   })
   test('Should call GetMarcaRepository with correct values', async () => {
     const spyFindById = jest.spyOn(getMarcaRepositoryStub, 'findById')
@@ -50,7 +50,7 @@ describe('ActivateMarca', () => {
     await sut.execute(mockInput)
     expect(spyUpdate).toHaveBeenCalledWith(expect.objectContaining({
       id: mockInput.id,
-      ativo: true
+      ativo: false
     }))
   })
   test('Should throw if UpdateMarcaRepository throws', async () => {
@@ -58,10 +58,10 @@ describe('ActivateMarca', () => {
     const promise = sut.execute(mockInput)
     await expect(promise).rejects.toThrow()
   })
-  test('Should activate a MarcaEntity on success', async () => {
+  test('Should inactive a MarcaEntity on success', async () => {
     const marcaEntity = await sut.execute(mockInput)
     expect(marcaEntity.id).toBeDefined()
-    expect(marcaEntity.ativo).toBe(true)
-    expect(marcaEntity.deletedAt).toBeNull()
+    expect(marcaEntity.ativo).toBe(false)
+    expect(marcaEntity.deletedAt).not.toBeNull()
   })
 })
