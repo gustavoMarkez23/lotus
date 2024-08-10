@@ -4,12 +4,13 @@ import { type MarcaEntity } from '@/domain/entities/marca.entity'
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { marcaModelMapper } from './marca-model-mapper'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
-import { type InputGetMarca } from '@/application/usecases/marca/get-marca'
 import { NotFoundError } from '@/domain/errors/not-found-error'
 import { type SearchMarcaParams, type SearchMarcaRepository, SearchMarcaResult } from '@/application/protocols/marca/search-marca-repository'
 import { type SearchResult } from '@/application/protocols/shared/searchable-repository'
+import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
+import { type Marca } from '@prisma/client'
 
-export class MarcaPrismaRepository implements CreateMarcaRepository, GetMarcaRepository, SearchMarcaRepository {
+export class MarcaPrismaRepository implements CreateMarcaRepository, GetMarcaRepository, SearchMarcaRepository, UpdateMarcaRepository {
   constructor (private readonly prismaService: PrismaService) {}
   filtableFields: string[] = ['descricao']
   sortableFields: string[] = ['descricao', 'createdAt']
@@ -18,12 +19,29 @@ export class MarcaPrismaRepository implements CreateMarcaRepository, GetMarcaRep
     return marcaModelMapper(marcaModel)
   }
 
-  async get (data: InputGetMarca): Promise<MarcaEntity> {
+  async findById (id: number): Promise<MarcaEntity> {
     try {
-      const marcaModel = await this.prismaService.marca.findUniqueOrThrow({ where: data })
+      const marcaModel = await this._get(id)
       return marcaModelMapper(marcaModel)
     } catch (error) {
-      throw new NotFoundError(`MarcaModel not found using ID ${data.id}`)
+      throw new NotFoundError(`MarcaModel not found using ID ${id}`)
+    }
+  }
+
+  async update (data: MarcaEntity): Promise<void> {
+    const id = Number(data.id)
+    await this._get(id)
+    await this.prismaService.marca.update({
+      where: { id },
+      data: data.toJSON()
+    })
+  }
+
+  private async _get (id: number): Promise<Marca> {
+    try {
+      return await this.prismaService.marca.findUniqueOrThrow({ where: { id } })
+    } catch (error) {
+      throw new NotFoundError(`MarcaModel not found using ID ${id}`)
     }
   }
 

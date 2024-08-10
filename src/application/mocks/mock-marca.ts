@@ -4,15 +4,28 @@ import { type CreateMarcaRepository } from '@/application/protocols/marca/create
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { type InputGetMarca } from '@/application/usecases/marca/get-marca'
+import { type UpdateMarcaRepository } from '../protocols/marca/update-marca-repository'
 
-export class CreateMarcaRepositoryStub implements CreateMarcaRepository {
-  async create (data: InputCreateMarca): Promise<MarcaEntity> {
-    return await Promise.resolve(new MarcaEntity(data, faker.number.int()))
+export const mockCreateMarcaRepository = (): CreateMarcaRepository => {
+  class CreateMarcaRepositoryStub implements CreateMarcaRepository {
+    async create (data: InputCreateMarca): Promise<MarcaEntity> {
+      return await Promise.resolve(new MarcaEntity(data, faker.number.int()))
+    }
   }
+  return new CreateMarcaRepositoryStub()
 }
-export class GetMarcaRepositoryStub implements GetMarcaRepository {
-  async get (data: InputGetMarca): Promise<MarcaEntity> {
-    return await Promise.resolve(new MarcaEntity(mockMarcaProps({}), data.id))
+export const mockGetMarcaRepository = (): GetMarcaRepository => {
+  class GetMarcaRepositoryStub implements GetMarcaRepository {
+    async findById (id: number): Promise<MarcaEntity> {
+      return await Promise.resolve(new MarcaEntity(mockMarcaProps({}), id))
+    }
   }
+  return new GetMarcaRepositoryStub()
+}
+
+export const mockUpdateMarcaRepository = (): UpdateMarcaRepository => {
+  class UpdateMarcaRepositoryStub implements UpdateMarcaRepository {
+    async update (data: MarcaEntity): Promise<void> {}
+  }
+  return new UpdateMarcaRepositoryStub()
 }
