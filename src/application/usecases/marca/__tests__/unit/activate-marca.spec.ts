@@ -53,4 +53,9 @@ describe('ActivateMarca', () => {
       ativo: true
     }))
   })
+  test('Should throw if UpdateMarcaRepository throws', async () => {
+    jest.spyOn(updateMarcaRepositoryStub, 'update').mockImplementationOnce(throwError)
+    const promise = sut.execute(mockInput)
+    await expect(promise).rejects.toThrow()
+  })
 })
