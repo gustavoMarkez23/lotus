@@ -58,4 +58,13 @@ describe('ActivateMarca', () => {
     const promise = sut.execute(mockInput)
     await expect(promise).rejects.toThrow()
   })
+  test('Should activate a MarcaEntity on success', async () => {
+    const mockMarcaEntity = new MarcaEntity(mockMarcaProps({}), mockInput.id)
+    mockMarcaEntity.activate()
+    jest.spyOn(getMarcaRepositoryStub, 'findById').mockReturnValueOnce(Promise.resolve(mockMarcaEntity))
+    const marcaEntity = await sut.execute(mockInput)
+    expect(marcaEntity.id).toBeDefined()
+    expect(marcaEntity.ativo).toEqual(true)
+    expect(marcaEntity.deletedAt).toBeNull()
+  })
 })
