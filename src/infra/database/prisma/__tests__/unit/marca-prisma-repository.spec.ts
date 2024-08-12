@@ -4,10 +4,10 @@ import { throwError } from '@/domain/mocks/mock-shared'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
 import prismaHelper from '@/infra/database/prisma/helpers/prisma-helper'
 import { Test } from '@nestjs/testing'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { faker } from '@faker-js/faker'
 import { MarcaPrismaRepository } from '@/infra/database/prisma/marca/marca-prisma-repository'
 import { PrismaService } from '@/presentation/services/prisma.service'
+import { DatabaseModule } from '@/presentation/modules/database.module'
 
 describe('MarcaPrismaRepository', () => {
   const prismaService = prismaHelper

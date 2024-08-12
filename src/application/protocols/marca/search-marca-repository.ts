@@ -1,5 +1,5 @@
 import { type MarcaEntity } from '@/domain/entities/marca.entity'
-import { type SearchableRepository, SearchParams, SearchResult } from '../shared/searchable-repository'
+import { type SearchableRepository, SearchParams, SearchResult } from '@/application/protocols/shared/searchable-repository'
 
 export type SearchMarcaFilter = string
 export class SearchMarcaParams extends SearchParams<SearchMarcaFilter> {}

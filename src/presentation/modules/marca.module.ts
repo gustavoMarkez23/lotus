@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common'
-import { MarcaController } from '@/infra/nestjs/marca/marca.controller'
-import { CreateMarca } from '@/application/usecases/marca/create-marca'
-import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
 import { MarcaPrismaRepository } from '@/infra/database/prisma/marca/marca-prisma-repository'
-import { GetMarca } from '@/application/usecases/marca/get-marca'
+import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
-import { ListMarca } from '@/application/usecases/marca/list-marca'
 import { type SearchMarcaRepository } from '@/application/protocols/marca/search-marca-repository'
-import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
 import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
+import { CreateMarca } from '@/application/usecases/marca/create-marca'
+import { GetMarca } from '@/application/usecases/marca/get-marca'
+import { ListMarca } from '@/application/usecases/marca/list-marca'
+import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
 import { ActivateMarcaUsecase } from '@/application/usecases/marca/activate-marca'
 import { InactiveMarcaUsecase } from '@/application/usecases/marca/inactive-marca'
 import { PrismaService } from '@/presentation/services/prisma.service'
+import { MarcaController } from '@/presentation/controllers/marca/marca.controller'
 
 @Module({
   controllers: [MarcaController],

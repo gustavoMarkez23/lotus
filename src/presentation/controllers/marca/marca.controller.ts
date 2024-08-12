@@ -2,7 +2,6 @@ import { CreateMarca } from '@/application/usecases/marca/create-marca'
 import { Body, Controller, Get, Inject, Param, Patch, Post, Put, Query } from '@nestjs/common'
 import { CreateMarcaDto } from './dto/create-marca.dto'
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { MarcaCollectionPresenter, MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
 import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { ListMarca, type OutputListMarca } from '@/application/usecases/marca/list-marca'
 import { ListMarcaDto } from './dto/list-marca.dto'
@@ -10,6 +9,7 @@ import { UpdateMarcaDto } from './dto/update-marca.dto'
 import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
 import { ActivateMarcaUsecase } from '@/application/usecases/marca/activate-marca'
 import { InactiveMarcaUsecase } from '@/application/usecases/marca/inactive-marca'
+import { MarcaCollectionPresenter, MarcaPresenter } from '@/presentation/presenter/marca-presenter'
 
 @Controller('marcas')
 export class MarcaController {
