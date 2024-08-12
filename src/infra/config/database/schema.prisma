@@ -17,3 +17,14 @@ model Marca {
 
   @@map("marcas")
 }
+
+model Grupo {
+  id        Int       @id @default(autoincrement())
+  descricao String
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  ativo     Boolean   @default(true)
+
+  @@map("grupos")
+}
