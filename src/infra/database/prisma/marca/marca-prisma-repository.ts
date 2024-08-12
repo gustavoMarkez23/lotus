@@ -1,5 +1,4 @@
 import { type CreateMarcaRepository } from '@/application/protocols/marca/create-marca-repository'
-import { type PrismaService } from '@/infra/database/prisma/prisma.service'
 import { type MarcaEntity } from '@/domain/entities/marca.entity'
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { marcaModelMapper } from './marca-model-mapper'
@@ -9,6 +8,7 @@ import { type SearchMarcaParams, type SearchMarcaRepository, SearchMarcaResult }
 import { type SearchResult } from '@/application/protocols/shared/searchable-repository'
 import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
 import { type Marca } from '@prisma/client'
+import { type PrismaService } from '@/presentation/services/prisma.service'
 
 export class MarcaPrismaRepository implements CreateMarcaRepository, GetMarcaRepository, SearchMarcaRepository, UpdateMarcaRepository {
   constructor (private readonly prismaService: PrismaService) {}

@@ -1,13 +1,15 @@
 import { CreateMarca } from '@/application/usecases/marca/create-marca'
-import { Body, Controller, Get, Inject, Param, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Get, Inject, Param, Patch, Post, Put, Query } from '@nestjs/common'
 import { CreateMarcaDto } from './dto/create-marca.dto'
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { MarcaCollectionPresenter, MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
 import { GetMarca } from '@/application/usecases/marca/get-marca'
 import { ListMarca, type OutputListMarca } from '@/application/usecases/marca/list-marca'
 import { ListMarcaDto } from './dto/list-marca.dto'
 import { UpdateMarcaDto } from './dto/update-marca.dto'
 import { UpdateMarcaUsecase } from '@/application/usecases/marca/update-marca'
+import { ActivateMarcaUsecase } from '@/application/usecases/marca/activate-marca'
+import { InactiveMarcaUsecase } from '@/application/usecases/marca/inactive-marca'
+import { MarcaCollectionPresenter, MarcaPresenter } from '@/presentation/presenter/marca-presenter'
 
 @Controller('marcas')
 export class MarcaController {
@@ -22,6 +24,12 @@ export class MarcaController {
 
   @Inject(UpdateMarcaUsecase)
   private readonly updateMarca!: UpdateMarcaUsecase
+
+  @Inject(ActivateMarcaUsecase)
+  private readonly activateMarcaUsecase!: ActivateMarcaUsecase
+
+  @Inject(InactiveMarcaUsecase)
+  private readonly inactiveMarcaUsecase!: InactiveMarcaUsecase
 
   static marcaToResponse (output: MarcaOutput): MarcaPresenter {
     return new MarcaPresenter(output)
@@ -58,8 +66,15 @@ export class MarcaController {
     return MarcaController.marcaToResponse(output)
   }
 
-  // @Delete(':id')
-  // remove (@Param('id') id: string) {
-  //   return this.marcaService.remove(+id)
-  // }
+  @Patch(':id/active')
+  async active (@Param('id') id: string): Promise<MarcaPresenter> {
+    const output = await this.activateMarcaUsecase.execute({ id: +id })
+    return MarcaController.marcaToResponse(output)
+  }
+
+  @Patch(':id/inactive')
+  async inactive (@Param('id') id: string): Promise<MarcaPresenter> {
+    const output = await this.inactiveMarcaUsecase.execute({ id: +id })
+    return MarcaController.marcaToResponse(output)
+  }
 }

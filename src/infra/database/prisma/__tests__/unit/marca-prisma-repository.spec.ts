@@ -2,14 +2,15 @@ import { prismaMock } from '@/infra/database/prisma/helpers/prisma-helper-mock'
 import { MarcaEntity } from '@/domain/entities/marca.entity'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { PrismaService } from '@/infra/database/prisma/prisma.service'
 import prismaHelper from '@/infra/database/prisma/helpers/prisma-helper'
 import { Test } from '@nestjs/testing'
-import { DatabaseModule } from '@/infra/database/database.module'
 import { faker } from '@faker-js/faker'
 import { MarcaPrismaRepository } from '@/infra/database/prisma/marca/marca-prisma-repository'
+import { PrismaService } from '@/presentation/services/prisma.service'
+import { DatabaseModule } from '@/presentation/modules/database.module'
 
 describe('MarcaPrismaRepository', () => {
+  let fakeId: number
   const prismaService = prismaHelper
   let sut: MarcaPrismaRepository
   beforeAll(async () => {
@@ -21,6 +22,7 @@ describe('MarcaPrismaRepository', () => {
       .compile()
   })
   beforeEach(() => {
+    fakeId = faker.number.int()
     sut = new MarcaPrismaRepository(prismaService as any)
   })
   describe('create()', () => {
@@ -38,7 +40,7 @@ describe('MarcaPrismaRepository', () => {
       expect(marca.createdAt).toEqual(mockMarca.createdAt)
     })
   })
-  describe('get()', () => {
+  describe('findUnique()', () => {
     test('Should throws if prisma throw', async () => {
       prismaMock.marca.findUnique.mockImplementationOnce(throwError)
       const entity = new MarcaEntity(mockMarcaProps({}))
@@ -46,7 +48,6 @@ describe('MarcaPrismaRepository', () => {
       await expect(promise).rejects.toThrow()
     })
     test('should finds a entity by id', async () => {
-      const fakeId = faker.number.int()
       const entity = new MarcaEntity(mockMarcaProps({}), fakeId)
       prismaMock.marca.findUniqueOrThrow.mockResolvedValue(
         { ...entity.toJSON(), deletedAt: null }
@@ -54,6 +55,19 @@ describe('MarcaPrismaRepository', () => {
       const output = await sut.findById(fakeId)
       expect(output).toBeTruthy()
       expect(output.toJSON()).toStrictEqual(entity.toJSON())
+    })
+  })
+  describe('update()', () => {
+    test('Should throws if prisma throw', async () => {
+      prismaMock.marca.update.mockImplementationOnce(throwError)
+      const entity = new MarcaEntity(mockMarcaProps({}), fakeId)
+      const promise = sut.update(entity)
+      await expect(promise).rejects.toThrow()
+    })
+    test('Should update a entity', async () => {
+      const mockEntity = new MarcaEntity(mockMarcaProps({}))
+      prismaMock.marca.update.mockResolvedValue(mockEntity.toJSON())
+      await sut.update(mockEntity)
     })
   })
 })

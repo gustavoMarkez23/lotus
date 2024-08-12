@@ -4,7 +4,7 @@ import { type CreateMarcaRepository } from '@/application/protocols/marca/create
 import { type InputCreateMarca } from '@/application/usecases/marca/create-marca'
 import { type GetMarcaRepository } from '@/application/protocols/marca/get-marca-repository'
 import { mockMarcaProps } from '@/domain/mocks/mock-marca'
-import { type UpdateMarcaRepository } from '../protocols/marca/update-marca-repository'
+import { type UpdateMarcaRepository } from '@/application/protocols/marca/update-marca-repository'
 
 export const mockCreateMarcaRepository = (): CreateMarcaRepository => {
   class CreateMarcaRepositoryStub implements CreateMarcaRepository {

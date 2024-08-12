@@ -1,7 +1,7 @@
 import { type MarcaOutput } from '@/application/dto/marca/marca-output'
-import { MarcaPresenter } from '@/infra/nestjs/presenter/marca-presenter'
 import { faker } from '@faker-js/faker'
 import { instanceToPlain } from 'class-transformer'
+import { MarcaPresenter } from '@/presentation/presenter/marca-presenter'
 
 describe('MarcaPresenter', () => {
   let sut: MarcaPresenter

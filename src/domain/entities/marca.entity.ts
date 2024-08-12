@@ -23,6 +23,18 @@ export class MarcaEntity extends Entity<MarcaProps> {
     this.descricao = value
   }
 
+  activate (): void {
+    MarcaEntity.validate({ ...this.props, ativo: true, deletedAt: null })
+    this.ativo = true
+    this.deletedAt = null
+  }
+
+  inactive (): void {
+    MarcaEntity.validate({ ...this.props, ativo: false, deletedAt: new Date() })
+    this.ativo = false
+    this.deletedAt = new Date()
+  }
+
   private setUpdateAt (): void {
     this.props.updatedAt = new Date()
   }
@@ -44,8 +56,16 @@ export class MarcaEntity extends Entity<MarcaProps> {
     return this.props.updatedAt!
   }
 
+  private set deletedAt (value: Date | null) {
+    this.props.deletedAt = value
+  }
+
   get deletedAt (): Date | null {
     return this.props.deletedAt ?? null
+  }
+
+  private set ativo (value: boolean) {
+    this.props.ativo = value
   }
 
   get ativo (): boolean {
