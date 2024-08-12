@@ -27,6 +27,6 @@ describe('MarcaPresenter', () => {
   })
   test('Should presenter data', () => {
     const output = instanceToPlain(sut)
-    expect(output).toStrictEqual(props)
+    expect(output).toStrictEqual({ ...props, createdAt: createdAt.toISOString() })
   })
 })
