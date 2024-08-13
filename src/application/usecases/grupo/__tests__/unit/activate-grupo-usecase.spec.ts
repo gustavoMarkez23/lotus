@@ -1,31 +1,23 @@
-import { faker } from '@faker-js/faker'
 import { throwError } from '@/domain/mocks/mock-shared'
-import { BadRequestError } from '@/application/errors/bad-request-error'
-import { type InputUpdateGrupo, UpdateGrupoUsecase } from '../../update-grupo-usecase'
+import { faker } from '@faker-js/faker'
+import { ActivateGrupoUsecase, type InputActivateGrupo } from '@/application/usecases/grupo/activate-grupo-usecase'
 import { type GetGrupoRepository } from '@/application/protocols/grupo/get-grupo-repository'
 import { type UpdateGrupoRepository } from '@/application/protocols/grupo/update-grupo-repository'
 import { mockGetGrupoRepository, mockUpdateGrupoRepository } from '@/application/mocks/mock-grupo'
 import { mockGrupoProps } from '@/domain/mocks/mock-grupo'
 import { GrupoEntity } from '@/domain/entities/grupo.entity'
 
-describe('UpdateGrupoUsecase', () => {
-  let mockInput: InputUpdateGrupo
+describe('ActivateGrupoUsecase', () => {
+  let mockInput: InputActivateGrupo
   let getGrupoRepositoryStub: GetGrupoRepository
   let updateGrupoRepositoryStub: UpdateGrupoRepository
-  let sut: UpdateGrupoUsecase
+  let sut: ActivateGrupoUsecase
+
   beforeEach(() => {
-    mockInput = {
-      id: faker.number.int(),
-      descricao: faker.commerce.product()
-    }
+    mockInput = { id: faker.number.int() }
     getGrupoRepositoryStub = mockGetGrupoRepository()
     updateGrupoRepositoryStub = mockUpdateGrupoRepository()
-    sut = new UpdateGrupoUsecase(getGrupoRepositoryStub, updateGrupoRepositoryStub)
-  })
-  test('Should throws error when descricao not provided', async () => {
-    await expect(async () => await sut.execute({ id: faker.number.int(), descricao: '' })).rejects.toThrow(
-      new BadRequestError('Descricao not provided')
-    )
+    sut = new ActivateGrupoUsecase(getGrupoRepositoryStub, updateGrupoRepositoryStub)
   })
   test('Should call GetGrupoRepository with correct values', async () => {
     const spyFindById = jest.spyOn(getGrupoRepositoryStub, 'findById')
@@ -44,7 +36,7 @@ describe('UpdateGrupoUsecase', () => {
     await sut.execute(mockInput)
     expect(spyUpdate).toHaveBeenCalledWith(expect.objectContaining({
       id: mockInput.id,
-      descricao: mockInput.descricao
+      ativo: true
     }))
   })
   test('Should throw if UpdateGrupoRepository throws', async () => {
@@ -52,12 +44,10 @@ describe('UpdateGrupoUsecase', () => {
     const promise = sut.execute(mockInput)
     await expect(promise).rejects.toThrow()
   })
-  test('Should update a GrupoEntity on success', async () => {
-    const mockGrupoEntity = new GrupoEntity(mockGrupoProps({}), mockInput.id)
-    mockGrupoEntity.update(mockInput.descricao)
-    jest.spyOn(getGrupoRepositoryStub, 'findById').mockReturnValueOnce(Promise.resolve(mockGrupoEntity))
+  test('Should activate a GrupoEntity on success', async () => {
     const grupoEntity = await sut.execute(mockInput)
     expect(grupoEntity.id).toBeDefined()
-    expect(grupoEntity.descricao).toEqual(mockInput.descricao)
+    expect(grupoEntity.ativo).toBe(true)
+    expect(grupoEntity.deletedAt).toBeNull()
   })
 })

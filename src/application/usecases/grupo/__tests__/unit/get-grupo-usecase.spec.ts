@@ -1,19 +1,19 @@
 import { type GetGrupoRepository } from '@/application/protocols/grupo/get-grupo-repository'
 import { throwError } from '@/domain/mocks/mock-shared'
 import { faker } from '@faker-js/faker'
-import { GetGrupo } from '@/application/usecases/grupo//get-grupo-usecase'
+import { GetGrupoUsecase } from '@/application/usecases/grupo//get-grupo-usecase'
 import { mockGrupoProps } from '@/domain/mocks/mock-grupo'
 import { GrupoEntity } from '@/domain/entities/grupo.entity'
 import { mockGetGrupoRepository } from '@/application/mocks/mock-grupo'
 
-describe('GetGrupo', () => {
+describe('GetGrupoUsecase', () => {
   let getGrupoRepositoryStub: GetGrupoRepository
-  let sut: GetGrupo
+  let sut: GetGrupoUsecase
   let id: number
   beforeEach(() => {
     id = faker.number.int()
     getGrupoRepositoryStub = mockGetGrupoRepository()
-    sut = new GetGrupo(getGrupoRepositoryStub)
+    sut = new GetGrupoUsecase(getGrupoRepositoryStub)
   })
   test('Should call GetGrupoRepository with correctly values', async () => {
     const spyGet = jest.spyOn(getGrupoRepositoryStub, 'findById')
