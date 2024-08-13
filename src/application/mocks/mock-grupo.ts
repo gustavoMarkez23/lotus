@@ -2,8 +2,9 @@ import { GrupoEntity } from '@/domain/entities/grupo.entity'
 import { type CreateGrupoRepository } from '@/application/protocols/grupo/create-grupo-repository'
 import { type InputCreateGrupo } from '@/application//usecases/grupo/create-grupo-usecase'
 import { faker } from '@faker-js/faker'
-import { type GetGrupoRepository } from '../protocols/grupo/get-grupo-repository'
+import { type GetGrupoRepository } from '@/application/protocols/grupo/get-grupo-repository'
 import { mockGrupoProps } from '@/domain/mocks/mock-grupo'
+import { type UpdateGrupoRepository } from '@/application/protocols/grupo/update-grupo-repository'
 
 export const mockCreateGrupoRepository = (): CreateGrupoRepository => {
   class CreateGrupoRepositoryStub implements CreateGrupoRepository {
@@ -20,4 +21,10 @@ export const mockGetGrupoRepository = (): GetGrupoRepository => {
     }
   }
   return new GetGrupoRepositoryStub()
+}
+export const mockUpdateGrupoRepository = (): UpdateGrupoRepository => {
+  class UpdateGrupoRepositoryStub implements UpdateGrupoRepository {
+    async update (data: GrupoEntity): Promise<void> {}
+  }
+  return new UpdateGrupoRepositoryStub()
 }
